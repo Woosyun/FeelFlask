@@ -4,4 +4,4 @@ numpy
 plotly
 st-gsheets-connection
 streamlit-lottie
-streamlit_star_rating
+streamlit-star-rating
