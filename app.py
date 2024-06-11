@@ -1,17 +1,18 @@
-# streamlit run app.py
 import streamlit as st
-import random
 from streamlit_lottie import st_lottie
-from frontend.data_loader import load_data, load_lottie_files, initialize_session_state
-from frontend.page_handlers import show_recommendation, handle_welcome_page, handle_drink_type_page, handle_flavor_preference_page, show_loading_page, handle_ingredient_selection_page
+from session_mangement import initialize_session_state, load_lottie_files, load_lottiefile
+from page_handler import *
+import json
+import numpy as np
 
-# Load data
-train_df, top_ingredients_list = load_data()
 
 # Load Lottie animations
-welcome_animations = load_lottie_files("frontend/lottie_files/welcome ({}).json", 1, 10)
-loading_animations = load_lottie_files("frontend/lottie_files/loading ({}).json", 1, 10)
-cocktail_animations = load_lottie_files("frontend/lottie_files/cocktail ({}).json", 1, 41)
+welcome_animations = load_lottie_files("lottie_files/welcome ({}).json", 1, 10)
+loading_animations = load_lottie_files("lottie_files/loading ({}).json", 1, 10)
+cocktail_animations = load_lottie_files("lottie_files/cocktail ({}).json", 1, 41)
+
+with open('./flavor_update.json', 'r') as fr:
+    flavor_info = json.load(fr)
 
 # Initialize session state
 initialize_session_state()
@@ -22,11 +23,16 @@ if st.session_state.page == 0:
 elif st.session_state.page == 1:
     handle_drink_type_page()
 elif st.session_state.page == 2:
-    handle_flavor_preference_page()
+    handle_input_by_images(st.session_state.drink_type)
 elif st.session_state.page == 3:
-    handle_ingredient_selection_page(top_ingredients_list, loading_animations)
+    handle_input_seed_ingredient(loading_animations)
 elif st.session_state.page == 4:
     show_loading_page()
 elif st.session_state.page == 5:
-    if 'cocktail' in st.session_state:
-        show_recommendation(st.session_state.cocktail, cocktail_animations)
+    if 'prediction_result' in st.session_state:
+        show_recommendation(st.session_state.prediction_result,
+                            cocktail_animations)
+# elif st.session_state.page == 9:
+    # handle_feedback_page()
+
+# def push_data(inputs, pred_ingredients, pred_amounts, feedback):
