@@ -3,5 +3,5 @@ pandas
 numpy
 plotly
 st-gsheets-connection
-streamlit_lottie
+streamlit-lottie
 streamlit_star_rating
