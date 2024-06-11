@@ -696,7 +696,7 @@ def handle_input_seed_ingredient(loading_animations):
     # filter로 요청하면, profile의 feature값과 차이가 적은 재료 top 10개를 불러와서 선택하도록 합니다.
     # 이때, 각 재료의 특성 값이 그래프로 나타나도록 합니다.
     response = requests.post(
-        'http://localhost:8000/filter',
+        'https://feelflask.streamlit.app/filter',
         json={
             "features": st.session_state.main_feature_values,
             "selected_ingredient": st.session_state.selected_ingredient,
@@ -822,7 +822,7 @@ def show_loading_page():
     print("!!!![st.session_state.main_feature_values]!!!!!!", main_features)
 
     # response -> (recipe: result_recipe, profile: user_recipe_profile)인 딕셔너리임
-    response = requests.post('http://localhost:8000/predict', json=main_features)
+    response = requests.post('https://feelflask.streamlit.app/predict', json=main_features)
 
     if response.status_code == 200:
         predict = response.json()
